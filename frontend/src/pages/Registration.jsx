@@ -32,7 +32,7 @@ function Registration() {
 
     if (isValid) {
       try {
-        const res = fetch("/api/signup", {
+        const res = await fetch("/api/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -40,7 +40,7 @@ function Registration() {
           body: JSON.stringify(dto),
         });
 
-        const json = res.json();
+        const json = await res.json();
         console.log(json);
       } catch (error) {
         console.error(error);
