@@ -9,8 +9,12 @@ function Registration() {
     password2: "",
   });
 
-  const handleInputChange = async ({ target: { name, value } }) => {
+  const handleInputChange = async ({ target, target: { name, value } }) => {
     setDto((dto) => ({ ...dto, [name]: value }));
+
+    if (name === "password2") {
+      target.setCustomValidity("");
+    }
   };
 
   const register = async ({ target }) => {
@@ -25,6 +29,23 @@ function Registration() {
     }
     const isValid = target.parentElement.querySelector("form").reportValidity();
     console.log(dto, isValid);
+
+    if (isValid) {
+      try {
+        const res = fetch("/api/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dto),
+        });
+
+        const json = res.json();
+        console.log(json);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   return (
