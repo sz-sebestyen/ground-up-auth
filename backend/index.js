@@ -35,6 +35,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const apiRouter = require("./routes/api");
+app.use("/api", apiRouter);
+
 app.listen(PORT, () => {
   console.log(`Application is listening at port ${PORT}`);
 });
