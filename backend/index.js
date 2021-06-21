@@ -1,8 +1,8 @@
-require("dotenv").config();
+const { PORT, DB_LINK } = require("./config");
 
 const mongoose = require("mongoose");
 mongoose
-  .connect(process.env.DB_LINK, {
+  .connect(DB_LINK, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -14,6 +14,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(process.env.PORT, () => {
-  console.log(`Application is listening at port ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`Application is listening at port ${PORT}`);
 });
