@@ -1,6 +1,6 @@
-const Message = require("../../models/Message");
+const AuthEntity = require("../../models/AuthEntity");
 
-module.exports = async function getPublicMessage(req, res, next) {
+module.exports = async function registerUser(req, res, next) {
   try {
     console.log("signup data: ", req.body);
     res.json({ message: "dto received" });
@@ -8,3 +8,5 @@ module.exports = async function getPublicMessage(req, res, next) {
     res.status(500).json({ error });
   }
 };
+
+const isValidDto = (dto) => {};
