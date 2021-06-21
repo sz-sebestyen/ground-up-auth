@@ -9,6 +9,27 @@ mongoose
   .then((res) => console.log(`Connection Succesful` /* , res */))
   .catch((err) => console.log(`Error in DB connection`, err));
 
+const Message = require("./models/Message");
+
+if (process.argv.includes("--messages")) {
+  const privateMessage = {
+    route: "private",
+    message: "private",
+  };
+
+  const publicMessage = {
+    route: "public",
+    message: "public",
+  };
+
+  try {
+    new Message(privateMessage).save();
+    new Message(publicMessage).save();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const express = require("express");
 const app = express();
 app.use(express.json());
