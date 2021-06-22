@@ -84,6 +84,7 @@ function Registration() {
 
   return (
     <div>
+      <h1>Registration</h1>
       <div>
         <form>
           <Username value={dto.username} onChange={handleInputChange} />

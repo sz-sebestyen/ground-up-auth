@@ -19,6 +19,7 @@ function Home() {
 
   return (
     <div>
+      <h1>Home</h1>
       <button onClick={getPublic}>Public</button>
       <button onClick={getPrivate}>Private</button>
       {dto && (
