@@ -9,7 +9,7 @@ const usernameApiController = require("../controllers/api/username");
 router.get("/private", privateApiController);
 router.get("/public", publicApiController);
 router.post("/signup", signupApiController);
-router.post("/username", emailApiController);
-router.post("/email", usernameApiController);
+router.post("/username", usernameApiController);
+router.post("/email", emailApiController);
 
 module.exports = router;

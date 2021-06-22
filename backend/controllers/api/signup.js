@@ -12,25 +12,31 @@ module.exports = async function registerUser(req, res, next) {
 
     const { username, email, password } = req.body;
 
-    if (isUniqueEmail(email) && isUniqueUsername(username)) {
-      bcrypt.hash(password, saltRounds, async (err, hash) => {
-        if (err) res.status(500).json({ error: err });
-
-        const authEntity = {
-          username,
-          email,
-          password: hash,
-        };
-
-        try {
-          await new AuthEntity(authEntity).save();
-
-          res.json({ username, email });
-        } catch (error) {
-          res.status(500).json({ error });
-        }
-      });
+    if (!isUniqueEmail(email)) {
+      res.json({ error: { message: "Occupied email!" } });
     }
+
+    if (!isUniqueUsername(username)) {
+      res.json({ error: { message: "Occupied username!" } });
+    }
+
+    bcrypt.hash(password, saltRounds, async (err, hash) => {
+      if (err) res.status(500).json({ error: err });
+
+      const authEntity = {
+        username,
+        email,
+        password: hash,
+      };
+
+      try {
+        await new AuthEntity(authEntity).save();
+
+        res.json({ username, email });
+      } catch (error) {
+        res.status(500).json({ error });
+      }
+    });
   } catch (error) {
     res.status(500).json({ error });
   }

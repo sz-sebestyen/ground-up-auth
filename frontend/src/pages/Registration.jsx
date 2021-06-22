@@ -9,11 +9,45 @@ function Registration() {
     password2: "",
   });
 
+  const checkUnique = async (path, dto) => {
+    try {
+      const res = await fetch(`/api/${path}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dto),
+      });
+
+      const json = await res.json();
+      console.log(json);
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleInputChange = async ({ target, target: { name, value } }) => {
     setDto((dto) => ({ ...dto, [name]: value }));
 
     if (name === "password2") {
-      target.setCustomValidity("");
+      if (value !== dto.password) {
+        target.setCustomValidity("Must reapeat password!");
+        target.reportValidity();
+      } else {
+        target.setCustomValidity("");
+      }
+    }
+
+    if (name === "username" || name === "email") {
+      const answer = await checkUnique(name, { [name]: value });
+
+      if (!answer.isUnique) {
+        target.setCustomValidity(answer.message);
+        target.reportValidity();
+      } else {
+        target.setCustomValidity("");
+      }
     }
   };
 
