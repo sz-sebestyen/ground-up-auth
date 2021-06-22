@@ -42,6 +42,8 @@ app.use(express.urlencoded({ extended: true }));
 const apiRouter = require("./routes/api");
 app.use("/api", apiRouter);
 
+require("./subs/onCofirmationInsert")();
+
 app.listen(PORT, () => {
   console.log(`Application is listening at port ${PORT}`);
 });
