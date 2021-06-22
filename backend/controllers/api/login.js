@@ -25,16 +25,26 @@ module.exports = async function loginUser(req, res, next) {
       if (err) return res.status(500).json({ error: err });
 
       if (isMatchingPassword) {
-        const user = await User.findOne(auth);
+        const { username, email, password } = auth;
+        let user = await User.findOne({ username });
+        console.log("user", user);
 
         if (user) {
           // TODO: login user
+          res.json({ message: "Logged in!" });
         } else {
-          // TODO: save user
-        }
+          user = { username, email, password };
+          try {
+            const newUser = await User.create(user);
 
-        console.log("user", user);
-        res.json({ message: "Logged in!" });
+            newUser.authentity = auth;
+            newUser.save();
+
+            res.json({ username, email });
+          } catch (error) {
+            res.status(500).json({ error });
+          }
+        }
       } else {
         unauthorize();
       }
