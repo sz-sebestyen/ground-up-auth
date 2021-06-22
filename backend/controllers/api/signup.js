@@ -1,4 +1,5 @@
 const AuthEntity = require("../../models/AuthEntity");
+const Confirmation = require("../../models/Confirmation");
 const isUniqueEmail = require("../../services/isUniqueEmail");
 const isUniqueUsername = require("../../services/isUniqueUsername");
 const bcrypt = require("bcrypt");
@@ -30,9 +31,25 @@ module.exports = async function registerUser(req, res, next) {
       };
 
       try {
-        await new AuthEntity(authEntity).save();
+        const auth = await new AuthEntity(authEntity).save();
 
-        res.json({ username, email });
+        const { randomBytes } = await import("crypto");
+
+        randomBytes(256, async (err, buf) => {
+          if (err) throw err;
+
+          const code = buf.toString("hex");
+
+          const confirmation = {
+            date: new Date(),
+            auth_id: auth._id,
+            code,
+          };
+
+          await new Confirmation(confirmation).save();
+
+          res.json({ username, email });
+        });
       } catch (error) {
         res.status(500).json({ error });
       }
