@@ -21,7 +21,7 @@ module.exports = async function registerUser(req, res, next) {
     }
 
     bcrypt.hash(password, saltRounds, async (err, hash) => {
-      if (err) res.status(500).json({ error: err });
+      if (err) return res.status(500).json({ error: err });
 
       const authEntity = {
         username,
@@ -42,25 +42,20 @@ module.exports = async function registerUser(req, res, next) {
   }
 };
 
+const isUsername = require("../../services/isUsername");
+const isEmail = require("../../services/isEmail");
+const isPassword = require("../../services/isPassword");
+
 const getValidationError = (dto) => {
-  if (!dto.username.match(/[a-zA-Z0-9]{4,}/)) {
+  if (!isUsername(dto.username)) {
     return { type: "username", message: "Invalid username!" };
   }
 
-  if (
-    !dto.email.match(
-      /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    )
-  ) {
+  if (!isEmail(dto.email)) {
     return { type: "email", message: "Invalid email!" };
   }
 
-  if (
-    !dto.password.match(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
-    ) ||
-    dto.password !== dto.password2
-  ) {
+  if (!isPassword(dto.password) || dto.password !== dto.password2) {
     return { type: "password", message: "Invalid password!" };
   }
 };
