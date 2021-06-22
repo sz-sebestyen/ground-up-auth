@@ -41,7 +41,6 @@ module.exports = async function registerUser(req, res, next) {
           const code = buf.toString("hex");
 
           const confirmation = {
-            date: new Date(),
             auth_id: auth._id,
             code,
           };

@@ -22,6 +22,9 @@ module.exports = async function loginUser(req, res, next) {
     return unauthorize();
   }
 
+  if (!auth.isConfirmed)
+    return res.status(401).json({ message: "User is not confirmed!" });
+
   try {
     bcrypt.compare(password, auth.password, async (err, isMatchingPassword) => {
       if (err) return res.status(500).json({ error: err });

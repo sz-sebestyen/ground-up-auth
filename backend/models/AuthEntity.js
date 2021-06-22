@@ -14,6 +14,10 @@ const authEntitySchema = Schema({
     type: String,
     required: true,
   },
+  isConfirmed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = AuthEntity = mongoose.model("AuthEntity", authEntitySchema);
