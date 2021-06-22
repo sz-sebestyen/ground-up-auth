@@ -2,6 +2,7 @@ const AuthEntity = require("../../models/AuthEntity");
 const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET, JWT_EXPIRES_IN } = require("../../config");
 
 const isUsername = require("../../services/isUsername");
 const isEmail = require("../../services/isEmail");
@@ -30,19 +31,19 @@ module.exports = async function loginUser(req, res, next) {
         let user = await User.findOne({ username });
 
         if (!user) {
-          user = { username, email, password };
           try {
-            const newUser = await User.create(user);
+            user = await User.create({ username, email, password });
 
-            newUser.authentity = auth;
-            newUser.save();
+            user.authentity = auth;
+            await user.save();
           } catch (error) {
             res.status(500).json({ error });
           }
         }
 
-        // TODO: create jwt
-        res.json({ username, email });
+        //  console.log(jwt.decode(newJwt));
+
+        res.json({ username, email, jwt: createJwt({ id: user._id }) });
       } else {
         unauthorize();
       }
@@ -50,4 +51,8 @@ module.exports = async function loginUser(req, res, next) {
   } catch (error) {
     res.status(500).json({ error });
   }
+};
+
+const createJwt = (payload) => {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 };
