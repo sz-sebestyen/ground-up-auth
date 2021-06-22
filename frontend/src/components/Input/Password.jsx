@@ -9,7 +9,7 @@ function Password({ ...rest }) {
       name="password"
       type="password"
       {...rest}
-      pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.-_]).{8,}"
+      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
     />
   );
 }

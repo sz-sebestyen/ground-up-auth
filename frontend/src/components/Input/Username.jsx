@@ -9,6 +9,7 @@ function Username(props) {
       placeholder="username"
       name="username"
       {...props}
+      pattern="[a-zA-Z0-9]{4,}"
     />
   );
 }

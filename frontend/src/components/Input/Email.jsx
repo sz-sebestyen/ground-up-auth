@@ -10,6 +10,7 @@ function Email(props) {
       type="email"
       name="email"
       {...props}
+      pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
     />
   );
 }
