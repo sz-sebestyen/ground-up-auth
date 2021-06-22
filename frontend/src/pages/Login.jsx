@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { UsernameOrEmail, Password } from "../components/Input";
+const jwt = require("jsonwebtoken");
 
 function Login() {
   const [dto, setDto] = useState({
@@ -13,7 +14,6 @@ function Login() {
   };
 
   const login = async ({ target }) => {
-    console.log(dto);
     try {
       const res = await fetch("/api/login", {
         method: "POST",
@@ -24,7 +24,9 @@ function Login() {
       });
 
       const json = await res.json();
-      console.log(json);
+
+      localStorage.setItem("jwt", json.jwt);
+      console.log(jwt.decode(json.jwt));
     } catch (error) {
       console.error(error);
     }

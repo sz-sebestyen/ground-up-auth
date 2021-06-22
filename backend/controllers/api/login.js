@@ -42,6 +42,9 @@ module.exports = async function loginUser(req, res, next) {
         }
 
         //  console.log(jwt.decode(newJwt));
+        // jwt.verify(token, 'shhhhh', function(err, decoded) {
+        //   console.log(decoded.foo) // bar
+        // });
 
         res.json({ username, email, jwt: createJwt({ id: user._id }) });
       } else {
