@@ -1,13 +1,36 @@
 const AuthEntity = require("../../models/AuthEntity");
+const isUniqueEmail = require("../../services/isUniqueEmail");
+const isUniqueUsername = require("../../services/isUniqueUsername");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 module.exports = async function registerUser(req, res, next) {
   try {
-    console.log("signup data: ", req.body);
     const validationError = getValidationError(req.body);
 
     if (validationError) res.json({ error: validationError });
 
-    res.json({ message: "dto received" });
+    const { username, email, password } = req.body;
+
+    if (isUniqueEmail(email) && isUniqueUsername(username)) {
+      bcrypt.hash(password, saltRounds, async (err, hash) => {
+        if (err) res.status(500).json({ error: err });
+
+        const authEntity = {
+          username,
+          email,
+          password: hash,
+        };
+
+        try {
+          await new AuthEntity(authEntity).save();
+
+          res.json({ username, email });
+        } catch (error) {
+          res.status(500).json({ error });
+        }
+      });
+    }
   } catch (error) {
     res.status(500).json({ error });
   }

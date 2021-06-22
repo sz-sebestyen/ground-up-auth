@@ -11,7 +11,7 @@ mongoose
 
 const Message = require("./models/Message");
 
-if (process.argv.includes("--messages")) {
+const saveMessages = async () => {
   const privateMessage = {
     route: "private",
     message: "private",
@@ -23,11 +23,15 @@ if (process.argv.includes("--messages")) {
   };
 
   try {
-    new Message(privateMessage).save();
-    new Message(publicMessage).save();
+    await new Message(privateMessage).save();
+    await new Message(publicMessage).save();
   } catch (error) {
     console.log(error);
   }
+};
+
+if (process.argv.includes("--messages")) {
+  saveMessages();
 }
 
 const express = require("express");
