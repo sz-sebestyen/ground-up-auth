@@ -9,15 +9,9 @@ function Registration() {
     password2: "",
   });
 
-  const checkUnique = async (path, dto) => {
+  const checkUnique = async (param, value) => {
     try {
-      const res = await fetch(`/api/${path}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dto),
-      });
+      const res = await fetch(`/api/unique?${param}=${value}`);
 
       const json = await res.json();
       console.log(json);
@@ -40,7 +34,7 @@ function Registration() {
     }
 
     if (name === "username" || name === "email") {
-      const answer = await checkUnique(name, { [name]: value });
+      const answer = await checkUnique(name, value);
 
       if (!answer.isUnique) {
         target.setCustomValidity(answer.message);

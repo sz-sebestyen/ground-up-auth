@@ -1,6 +1,7 @@
 const AuthEntity = require("../../models/AuthEntity");
 const User = require("../../models/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const isUsername = require("../../services/isUsername");
 const isEmail = require("../../services/isEmail");
@@ -27,24 +28,21 @@ module.exports = async function loginUser(req, res, next) {
       if (isMatchingPassword) {
         const { username, email, password } = auth;
         let user = await User.findOne({ username });
-        console.log("user", user);
 
-        if (user) {
-          // TODO: login user
-          res.json({ message: "Logged in!" });
-        } else {
+        if (!user) {
           user = { username, email, password };
           try {
             const newUser = await User.create(user);
 
             newUser.authentity = auth;
             newUser.save();
-
-            res.json({ username, email });
           } catch (error) {
             res.status(500).json({ error });
           }
         }
+
+        // TODO: create jwt
+        res.json({ username, email });
       } else {
         unauthorize();
       }
