@@ -1,4 +1,5 @@
 const AuthEntity = require("../../models/AuthEntity");
+const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 
 const isUsername = require("../../services/isUsername");
@@ -10,22 +11,29 @@ module.exports = async function loginUser(req, res, next) {
 
   const { usernameOrEmail, password } = req.body;
 
-  let user;
+  let auth;
   if (isUsername(usernameOrEmail)) {
-    user = await AuthEntity.findOne({ username: usernameOrEmail });
+    auth = await AuthEntity.findOne({ username: usernameOrEmail });
   } else if (isEmail(usernameOrEmail)) {
-    user = await AuthEntity.findOne({ email: usernameOrEmail });
+    auth = await AuthEntity.findOne({ email: usernameOrEmail });
   } else {
     return unauthorize();
   }
 
   try {
-    bcrypt.compare(password, user.password, (err, isMatchingPassword) => {
+    bcrypt.compare(password, auth.password, async (err, isMatchingPassword) => {
       if (err) return res.status(500).json({ error: err });
 
       if (isMatchingPassword) {
-        // TODO: login user
-        console.log("matching pw");
+        const user = await User.findOne(auth);
+
+        if (user) {
+          // TODO: login user
+        } else {
+          // TODO: save user
+        }
+
+        console.log("user", user);
         res.json({ message: "Logged in!" });
       } else {
         unauthorize();
