@@ -8,7 +8,7 @@ module.exports = () => {
     if (change.operationType === "insert") {
       const confirmation = change.fullDocument;
       const auth = await Authentity.findOne({ _id: confirmation.auth_id });
-      main().catch(console.error);
+      main(confirmation.code, auth.username, auth.email).catch(console.error);
     }
   });
 };
@@ -31,8 +31,10 @@ module.exports = () => {
   documentKey: { _id: 60d1fe72905561799adcc44d }
 } */
 
-async function main() {
-  let transporter = nodemailer.createTransport({
+async function main(code, username, email) {
+  const link = `http://localhost:8080/confirm?code=${code}&user=${username}`;
+
+  const transporter = nodemailer.createTransport({
     host: "smtp.live.com",
     port: 587,
     secure: false, // true for 465, false for other ports
@@ -42,12 +44,12 @@ async function main() {
     },
   });
 
-  let info = await transporter.sendMail({
+  const info = await transporter.sendMail({
     from: `"Fred Foo 👻" <${EMAIL}>`,
-    to: EMAIL, // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
+    to: [EMAIL, email].join(", "), // list of receivers
+    subject: "Eamil confirmation", // Subject line
+    text: link, // plain text body
+    html: `<a href="${link}">Confirm email</a>`, // html body
   });
 
   console.log("Message sent: %s", info.messageId);
