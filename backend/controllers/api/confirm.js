@@ -1,7 +1,5 @@
 const AuthEntity = require("../../models/AuthEntity");
 const Confirmation = require("../../models/Confirmation");
-const { JWT_SECRET, JWT_EXPIRES_IN } = require("../../config");
-
 const isUsername = require("../../services/isUsername");
 
 module.exports = async function confirmEmail(req, res, next) {
