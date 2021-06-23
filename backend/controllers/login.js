@@ -25,39 +25,31 @@ module.exports = async function loginUser(req, res, next) {
   if (!auth.isConfirmed)
     return res.status(401).json({ message: "User is not confirmed!" });
 
-  try {
-    bcrypt.compare(password, auth.password, async (err, isMatchingPassword) => {
-      if (err) return res.status(500).json({ error: err });
+  bcrypt.compare(password, auth.password, async (err, isMatchingPassword) => {
+    if (err) return res.status(500).json({ error: err });
 
-      if (isMatchingPassword) {
-        const { username, email, password } = auth;
-        let user = await User.findOne({ username });
+    if (isMatchingPassword) {
+      const { username, email, password } = auth;
+      let user = await User.findOne({ username });
 
-        if (!user) {
-          try {
-            user = await User.create({ username, email, password });
+      if (!user) {
+        user = await User.create({ username, email, password });
 
-            user.authentity = auth;
-            await user.save();
-            res.status(201);
-          } catch (error) {
-            res.status(500).json({ error });
-          }
-        }
-
-        //  console.log(jwt.decode(newJwt));
-        // jwt.verify(token, 'shhhhh', function(err, decoded) {
-        //   console.log(decoded.foo) // bar
-        // });
-
-        res.json({ username, email, jwt: createJwt({ id: user._id }) });
-      } else {
-        unauthorize();
+        user.authentity = auth;
+        await user.save();
+        res.status(201);
       }
-    });
-  } catch (error) {
-    res.status(500).json({ error });
-  }
+
+      //  console.log(jwt.decode(newJwt));
+      // jwt.verify(token, 'shhhhh', function(err, decoded) {
+      //   console.log(decoded.foo) // bar
+      // });
+
+      res.json({ username, email, jwt: createJwt({ id: user._id }) });
+    } else {
+      unauthorize();
+    }
+  });
 };
 
 const createJwt = (payload) => {

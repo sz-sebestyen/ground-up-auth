@@ -6,52 +6,48 @@ const bcrypt = require("bcrypt");
 const { SALT_ROUNDS } = require("../config");
 
 module.exports = async function registerUser(req, res, next) {
-  try {
-    const validationError = getValidationError(req.body);
+  const validationError = getValidationError(req.body);
 
-    if (validationError) res.json({ error: validationError });
+  if (validationError) res.json({ error: validationError });
 
-    const { username, email, password } = req.body;
+  const { username, email, password } = req.body;
 
-    if (!isUniqueEmail(email)) {
-      res.status(409).json({ error: { message: "Occupied email!" } });
-    }
+  if (!isUniqueEmail(email)) {
+    res.status(409).json({ error: { message: "Occupied email!" } });
+  }
 
-    if (!isUniqueUsername(username)) {
-      res.status(409).json({ error: { message: "Occupied username!" } });
-    }
+  if (!isUniqueUsername(username)) {
+    res.status(409).json({ error: { message: "Occupied username!" } });
+  }
 
-    bcrypt.hash(password, SALT_ROUNDS, async (err, hash) => {
-      if (err) return res.status(500).json({ error: err });
+  bcrypt.hash(password, SALT_ROUNDS, async (err, hash) => {
+    if (err) return res.status(500).json({ error: err });
 
-      const authEntity = {
-        username,
-        email,
-        password: hash,
+    const authEntity = {
+      username,
+      email,
+      password: hash,
+    };
+
+    const auth = await new AuthEntity(authEntity).save();
+
+    const { randomBytes } = await import("crypto");
+
+    randomBytes(256, async (err, buf) => {
+      if (err) throw err;
+
+      const code = buf.toString("hex");
+
+      const confirmation = {
+        auth_id: auth._id,
+        code,
       };
 
-      const auth = await new AuthEntity(authEntity).save();
+      await new Confirmation(confirmation).save();
 
-      const { randomBytes } = await import("crypto");
-
-      randomBytes(256, async (err, buf) => {
-        if (err) throw err;
-
-        const code = buf.toString("hex");
-
-        const confirmation = {
-          auth_id: auth._id,
-          code,
-        };
-
-        await new Confirmation(confirmation).save();
-
-        res.status(201).json({ username, email });
-      });
+      res.status(201).json({ username, email });
     });
-  } catch (error) {
-    res.status(500).json({ error });
-  }
+  });
 };
 
 const isUsername = require("../services/isUsername");

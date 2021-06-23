@@ -18,31 +18,27 @@ module.exports = async function confirmEmail(req, res, next) {
     return unauthorize();
   }
 
-  try {
-    const auth = await AuthEntity.findOne({ username });
+  const auth = await AuthEntity.findOne({ username });
 
-    if (!auth) return unauthorize();
+  if (!auth) return unauthorize();
 
-    const reset = await Reset.findOne({ auth_id: auth._id });
+  const reset = await Reset.findOne({ auth_id: auth._id });
 
-    const minutesPassed =
-      (Date.now() - new Date(reset.date).getTime()) / 1000 / 60;
+  const minutesPassed =
+    (Date.now() - new Date(reset.date).getTime()) / 1000 / 60;
 
-    if (minutesPassed > 5) {
-      return unauthorize();
-    }
+  if (minutesPassed > 5) {
+    return unauthorize();
+  }
 
-    const { timingSafeEqual } = await import("crypto");
+  const { timingSafeEqual } = await import("crypto");
 
-    if (timingSafeEqual(code, reset.code)) {
-      // TODO: change pw in AuthEntity and User i exists
+  if (timingSafeEqual(code, reset.code)) {
+    // TODO: change pw in AuthEntity and User i exists
 
-      await auth.save();
-      res.status(201).json({ status: "success", message: "Password changed!" });
-    } else {
-      unauthorize();
-    }
-  } catch (error) {
-    res.status(500).json({ error });
+    await auth.save();
+    res.status(201).json({ status: "success", message: "Password changed!" });
+  } else {
+    unauthorize();
   }
 };

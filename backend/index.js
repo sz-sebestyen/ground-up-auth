@@ -42,6 +42,11 @@ app.use(express.urlencoded({ extended: true }));
 const apiRouter = require("./routes/api");
 app.use("/api", apiRouter);
 
+app.use(function errorHandler(err, req, res, next) {
+  res.status(500).json({ message: "Server error" });
+  console.log("Server error: ", err);
+});
+
 require("./subs/onCofirmationInsert")();
 require("./subs/onResetInsert")();
 

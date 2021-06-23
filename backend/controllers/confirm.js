@@ -11,30 +11,26 @@ module.exports = async function confirmEmail(req, res, next) {
     return unauthorize();
   }
 
-  try {
-    const auth = await AuthEntity.findOne({ username });
+  const auth = await AuthEntity.findOne({ username });
 
-    if (!auth) return unauthorize();
+  if (!auth) return unauthorize();
 
-    const confirmation = await Confirmation.findOne({ auth_id: auth._id });
+  const confirmation = await Confirmation.findOne({ auth_id: auth._id });
 
-    const minutesPassed =
-      (Date.now() - new Date(confirmation.date).getTime()) / 1000 / 60;
+  const minutesPassed =
+    (Date.now() - new Date(confirmation.date).getTime()) / 1000 / 60;
 
-    if (minutesPassed > 5) {
-      return unauthorize();
-    }
+  if (minutesPassed > 5) {
+    return unauthorize();
+  }
 
-    const { timingSafeEqual } = await import("crypto");
+  const { timingSafeEqual } = await import("crypto");
 
-    if (timingSafeEqual(code, confirmation.code)) {
-      auth.isConfirmed = true;
-      await auth.save();
-      res.status(201).json({ status: "success", message: "Email confirmed!" });
-    } else {
-      unauthorize();
-    }
-  } catch (error) {
-    res.status(500).json({ error });
+  if (timingSafeEqual(code, confirmation.code)) {
+    auth.isConfirmed = true;
+    await auth.save();
+    res.status(201).json({ status: "success", message: "Email confirmed!" });
+  } else {
+    unauthorize();
   }
 };

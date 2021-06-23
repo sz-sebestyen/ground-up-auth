@@ -11,28 +11,24 @@ module.exports = async function confirmEmail(req, res, next) {
     return rejectRequest();
   }
 
-  try {
-    const auth = await AuthEntity.findOne({ email });
+  const auth = await AuthEntity.findOne({ email });
 
-    if (!auth) return rejectRequest();
+  if (!auth) return rejectRequest();
 
-    const { randomBytes } = await import("crypto");
+  const { randomBytes } = await import("crypto");
 
-    randomBytes(256, async (err, buf) => {
-      if (err) throw err;
+  randomBytes(256, async (err, buf) => {
+    if (err) throw err;
 
-      const code = buf.toString("hex");
+    const code = buf.toString("hex");
 
-      const reset = {
-        auth_id: auth._id,
-        code,
-      };
+    const reset = {
+      auth_id: auth._id,
+      code,
+    };
 
-      await new Reset(reset).save();
+    await new Reset(reset).save();
 
-      res.status(201).json({ email });
-    });
-  } catch (error) {
-    res.status(500).json({ error });
-  }
+    res.status(201).json({ email });
+  });
 };
