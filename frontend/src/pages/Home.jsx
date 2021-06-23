@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navigation from "../components/Navigation";
 
 function Home() {
   const [dto, setDto] = useState();
@@ -19,6 +20,7 @@ function Home() {
 
   return (
     <div>
+      <Navigation />
       <h1>Home</h1>
       <button onClick={getPublic}>Public</button>
       <button onClick={getPrivate}>Private</button>

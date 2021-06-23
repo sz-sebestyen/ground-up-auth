@@ -1,7 +1,7 @@
 const Confirmation = require("../models/Confirmation");
 const Authentity = require("../models/AuthEntity");
 const nodemailer = require("nodemailer");
-const { EMAIL, EMAIL_PW } = require("../config");
+const { EMAIL, EMAIL_PW, FRONTEND_HOST } = require("../config");
 
 module.exports = () => {
   Confirmation.watch().on("change", async (change) => {
@@ -32,7 +32,7 @@ module.exports = () => {
 } */
 
 async function main(code, username, email) {
-  const link = `http://localhost:8080/confirm?code=${code}&user=${username}`;
+  const link = `${FRONTEND_HOST}/confirm?code=${code}&user=${username}`;
 
   const transporter = nodemailer.createTransport({
     host: "smtp.live.com",

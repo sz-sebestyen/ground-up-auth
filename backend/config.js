@@ -7,4 +7,5 @@ module.exports = {
   JWT_EXPIRES_IN: parseInt(process.env.JWT_EXPIRES_IN),
   EMAIL: process.env.EMAIL,
   EMAIL_PW: process.env.EMAIL_PW,
+  FRONTEND_HOST: process.env.FRONTEND_HOST,
 };

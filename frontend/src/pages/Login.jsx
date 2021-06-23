@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { UsernameOrEmail, Password } from "../components/Input";
-const jwt = require("jsonwebtoken");
+import Navigation from "../components/Navigation";
+import jwt from "jsonwebtoken";
 
 function Login() {
   const [dto, setDto] = useState({
@@ -34,6 +35,7 @@ function Login() {
 
   return (
     <div>
+      <Navigation />
       <h1>Login</h1>
       <div>
         <form>

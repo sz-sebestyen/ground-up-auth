@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Username, Email, Password } from "../components/Input";
+import Navigation from "../components/Navigation";
 
 function Registration() {
   const [dto, setDto] = useState({
@@ -78,6 +79,7 @@ function Registration() {
 
   return (
     <div>
+      <Navigation />
       <h1>Registration</h1>
       <div>
         <form>
