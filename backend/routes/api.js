@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/private", require("../controllers/api/private"));
-router.get("/public", require("../controllers/api/public"));
-router.get("/unique", require("../controllers/api/unique"));
+router.get("/private", require("../controllers/private"));
+router.get("/public", require("../controllers/public"));
+router.get("/unique", require("../controllers/unique"));
 
-router.post("/signup", require("../controllers/api/signup"));
-router.post("/login", require("../controllers/api/login"));
-router.post("/confirm", require("../controllers/api/confirm"));
-router.post("/reset", require("../controllers/api/reset"));
+router.post("/signup", require("../controllers/signup"));
+router.post("/login", require("../controllers/login"));
+router.post("/confirm", require("../controllers/confirm"));
+router.post("/reset", require("../controllers/reset"));
 
 module.exports = router;

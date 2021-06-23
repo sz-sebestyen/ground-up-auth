@@ -1,6 +1,6 @@
-const AuthEntity = require("../../models/AuthEntity");
-const Confirmation = require("../../models/Confirmation");
-const isUsername = require("../../services/isUsername");
+const AuthEntity = require("../models/AuthEntity");
+const Confirmation = require("../models/Confirmation");
+const isUsername = require("../services/isUsername");
 
 module.exports = async function confirmEmail(req, res, next) {
   const unauthorize = () => res.status(401).json({ message: "Unauthorized!" });

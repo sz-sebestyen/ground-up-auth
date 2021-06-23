@@ -1,11 +1,11 @@
-const AuthEntity = require("../../models/AuthEntity");
-const User = require("../../models/User");
+const AuthEntity = require("../models/AuthEntity");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET, JWT_EXPIRES_IN } = require("../../config");
+const { JWT_SECRET, JWT_EXPIRES_IN } = require("../config");
 
-const isUsername = require("../../services/isUsername");
-const isEmail = require("../../services/isEmail");
+const isUsername = require("../services/isUsername");
+const isEmail = require("../services/isEmail");
 
 module.exports = async function loginUser(req, res, next) {
   const unauthorize = () =>

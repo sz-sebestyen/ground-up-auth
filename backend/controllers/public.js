@@ -1,4 +1,4 @@
-const Message = require("../../models/Message");
+const Message = require("../models/Message");
 
 module.exports = async function getPublicMessage(req, res, next) {
   try {

@@ -1,7 +1,7 @@
-const AuthEntity = require("../../models/AuthEntity");
-const Confirmation = require("../../models/Confirmation");
-const isUniqueEmail = require("../../services/isUniqueEmail");
-const isUniqueUsername = require("../../services/isUniqueUsername");
+const AuthEntity = require("../models/AuthEntity");
+const Confirmation = require("../models/Confirmation");
+const isUniqueEmail = require("../services/isUniqueEmail");
+const isUniqueUsername = require("../services/isUniqueUsername");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -54,9 +54,9 @@ module.exports = async function registerUser(req, res, next) {
   }
 };
 
-const isUsername = require("../../services/isUsername");
-const isEmail = require("../../services/isEmail");
-const isPassword = require("../../services/isPassword");
+const isUsername = require("../services/isUsername");
+const isEmail = require("../services/isEmail");
+const isPassword = require("../services/isPassword");
 
 const getValidationError = (dto) => {
   if (!isUsername(dto.username)) {

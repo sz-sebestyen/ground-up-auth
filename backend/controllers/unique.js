@@ -1,5 +1,5 @@
-const isUniqueUsername = require("../../services/isUniqueUsername");
-const isUniqueEmail = require("../../services/isUniqueEmail");
+const isUniqueUsername = require("../services/isUniqueUsername");
+const isUniqueEmail = require("../services/isUniqueEmail");
 
 module.exports = async function (req, res, next) {
   if (req.query.username && (await isUniqueUsername(req.query.username))) {
