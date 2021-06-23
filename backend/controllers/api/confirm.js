@@ -20,6 +20,13 @@ module.exports = async function confirmEmail(req, res, next) {
 
     const confirmation = await Confirmation.findOne({ auth_id: auth._id });
 
+    const minutesPassed =
+      (Date.now() - new Date(confirmation.date).getTime()) / 1000 / 60;
+
+    if (minutesPassed > 5) {
+      return unauthorize();
+    }
+
     if (code === confirmation.code) {
       auth.isConfirmed = true;
       await auth.save();
