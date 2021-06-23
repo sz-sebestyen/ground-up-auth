@@ -3,7 +3,7 @@ const Confirmation = require("../models/Confirmation");
 const isUniqueEmail = require("../services/isUniqueEmail");
 const isUniqueUsername = require("../services/isUniqueUsername");
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
+const { SALT_ROUNDS } = require("../config");
 
 module.exports = async function registerUser(req, res, next) {
   try {
@@ -21,7 +21,7 @@ module.exports = async function registerUser(req, res, next) {
       res.status(409).json({ error: { message: "Occupied username!" } });
     }
 
-    bcrypt.hash(password, saltRounds, async (err, hash) => {
+    bcrypt.hash(password, SALT_ROUNDS, async (err, hash) => {
       if (err) return res.status(500).json({ error: err });
 
       const authEntity = {

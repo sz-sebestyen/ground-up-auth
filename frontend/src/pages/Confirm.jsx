@@ -31,7 +31,7 @@ function Confirm() {
 
   useEffect(() => {
     confirm();
-  }, []);
+  }, []); // eslint-disable-line
 
   return (
     <div>

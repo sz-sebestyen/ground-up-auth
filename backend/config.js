@@ -8,4 +8,5 @@ module.exports = {
   EMAIL: process.env.EMAIL,
   EMAIL_PW: process.env.EMAIL_PW,
   FRONTEND_HOST: process.env.FRONTEND_HOST,
+  SALT_ROUNDS: parseInt(process.env.SALT_ROUNDS),
 };
