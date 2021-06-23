@@ -8,7 +8,9 @@ module.exports = () => {
     if (change.operationType === "insert") {
       const confirmation = change.fullDocument;
       const auth = await Authentity.findOne({ _id: confirmation.auth_id });
-      main(confirmation.code, auth.username, auth.email).catch(console.error);
+      sendMail(confirmation.code, auth.username, auth.email).catch(
+        console.error
+      );
     }
   });
 };
@@ -31,7 +33,7 @@ module.exports = () => {
   documentKey: { _id: 60d1fe72905561799adcc44d }
 } */
 
-async function main(code, username, email) {
+async function sendMail(code, username, email) {
   const link = `${FRONTEND_HOST}/confirm?code=${code}&user=${username}`;
 
   const transporter = nodemailer.createTransport({

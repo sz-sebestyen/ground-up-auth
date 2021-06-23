@@ -43,6 +43,7 @@ const apiRouter = require("./routes/api");
 app.use("/api", apiRouter);
 
 require("./subs/onCofirmationInsert")();
+require("./subs/onResetInsert")();
 
 app.listen(PORT, () => {
   console.log(`Application is listening at port ${PORT}`);
