@@ -3,6 +3,7 @@ import Home from "./Home";
 import Registration from "./Registration";
 import Login from "./Login";
 import Confirm from "./Confirm";
+import ForgotPassword from "./ForgotPassword";
 
 const Router = () => (
   <BrowserRouter>
@@ -21,6 +22,10 @@ const Router = () => (
 
       <Route exact path="/confirm">
         <Confirm />
+      </Route>
+
+      <Route exact path="/forgot-password">
+        <ForgotPassword />
       </Route>
     </Switch>
   </BrowserRouter>

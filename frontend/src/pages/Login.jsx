@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { UsernameOrEmail, Password } from "../components/Input";
 import Navigation from "../components/Navigation";
 import jwt from "jsonwebtoken";
@@ -46,6 +47,7 @@ function Login() {
           <Password value={dto.password} onChange={handleInputChange} />
         </form>
         <button onClick={login}>Login</button>
+        <Link to="/forgot-password">I forgot my password</Link>
       </div>
     </div>
   );
