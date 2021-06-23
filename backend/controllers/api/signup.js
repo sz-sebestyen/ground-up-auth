@@ -14,11 +14,11 @@ module.exports = async function registerUser(req, res, next) {
     const { username, email, password } = req.body;
 
     if (!isUniqueEmail(email)) {
-      res.json({ error: { message: "Occupied email!" } });
+      res.status(409).json({ error: { message: "Occupied email!" } });
     }
 
     if (!isUniqueUsername(username)) {
-      res.json({ error: { message: "Occupied username!" } });
+      res.status(409).json({ error: { message: "Occupied username!" } });
     }
 
     bcrypt.hash(password, saltRounds, async (err, hash) => {
@@ -30,28 +30,24 @@ module.exports = async function registerUser(req, res, next) {
         password: hash,
       };
 
-      try {
-        const auth = await new AuthEntity(authEntity).save();
+      const auth = await new AuthEntity(authEntity).save();
 
-        const { randomBytes } = await import("crypto");
+      const { randomBytes } = await import("crypto");
 
-        randomBytes(256, async (err, buf) => {
-          if (err) throw err;
+      randomBytes(256, async (err, buf) => {
+        if (err) throw err;
 
-          const code = buf.toString("hex");
+        const code = buf.toString("hex");
 
-          const confirmation = {
-            auth_id: auth._id,
-            code,
-          };
+        const confirmation = {
+          auth_id: auth._id,
+          code,
+        };
 
-          await new Confirmation(confirmation).save();
+        await new Confirmation(confirmation).save();
 
-          res.json({ username, email });
-        });
-      } catch (error) {
-        res.status(500).json({ error });
-      }
+        res.status(201).json({ username, email });
+      });
     });
   } catch (error) {
     res.status(500).json({ error });

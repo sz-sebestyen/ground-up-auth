@@ -7,6 +7,6 @@ module.exports = async function (req, res, next) {
   } else if (req.query.email && (await isUniqueEmail(req.query.email))) {
     res.json({ isUnique: true, message: "Email is unoccupied!" });
   } else {
-    res.json({ isUnique: false, message: "Occupied!" });
+    res.status(409).json({ isUnique: false, message: "Occupied!" });
   }
 };

@@ -7,5 +7,6 @@ router.get("/unique", require("../controllers/api/unique"));
 
 router.post("/signup", require("../controllers/api/signup"));
 router.post("/login", require("../controllers/api/login"));
+router.post("/confirm", require("../controllers/api/confirm"));
 
 module.exports = router;
