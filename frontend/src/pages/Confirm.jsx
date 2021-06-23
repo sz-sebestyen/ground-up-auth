@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useQuery from "../hooks/useQuery";
+import Navigation from "../components/Navigation";
 
 function Confirm() {
   const query = useQuery();
@@ -34,6 +35,7 @@ function Confirm() {
 
   return (
     <div>
+      <Navigation />
       {isLoading ? (
         <div>loading...</div>
       ) : (
