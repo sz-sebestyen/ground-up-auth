@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import useQuery from "../hooks/useQuery";
 import { Password } from "../components/Input";
 import Navigation from "../components/Navigation";
 
 function ResetPassword() {
   const query = useQuery();
+  const history = useHistory();
 
   const code = query.get("code");
   const username = query.get("user");
@@ -54,6 +56,10 @@ function ResetPassword() {
 
         const json = await res.json();
         console.log("password reset answer: ", json);
+
+        if (json.status === "success") {
+          history.push("/login", { message: "Password changed!" });
+        }
       } catch (error) {
         console.error(error);
       }

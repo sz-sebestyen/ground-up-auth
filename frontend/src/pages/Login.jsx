@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { UsernameOrEmail, Password } from "../components/Input";
 import Navigation from "../components/Navigation";
 import jwt from "jsonwebtoken";
 
 function Login() {
+  const { state } = useLocation();
+
   const [dto, setDto] = useState({
     usernameOrEmail: "",
     password: "",
@@ -48,6 +50,7 @@ function Login() {
         </form>
         <button onClick={login}>Login</button>
         <Link to="/forgot-password">I forgot my password</Link>
+        {state?.message}
       </div>
     </div>
   );
