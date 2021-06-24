@@ -9,5 +9,6 @@ router.post("/signup", require("../controllers/signup"));
 router.post("/login", require("../controllers/login"));
 router.post("/confirm", require("../controllers/confirm"));
 router.post("/reset", require("../controllers/reset"));
+router.post("/password", require("../controllers/password"));
 
 module.exports = router;

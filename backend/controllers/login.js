@@ -29,7 +29,7 @@ module.exports = async function loginUser(req, res, next) {
     if (err) return res.status(500).json({ error: err });
 
     if (isMatchingPassword) {
-      const { username, email, password } = auth;
+      const { username, email } = auth;
       let user = await User.findOne({ username });
 
       if (!user) {
