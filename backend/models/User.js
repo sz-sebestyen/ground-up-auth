@@ -10,10 +10,6 @@ const userSchema = Schema({
     type: String,
     required: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
   authentity: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "AuthEntity",

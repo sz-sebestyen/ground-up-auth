@@ -21,7 +21,7 @@ module.exports = async function registerUser(req, res, next) {
   }
 
   bcrypt.hash(password, SALT_ROUNDS, async (err, hash) => {
-    if (err) return res.status(500).json({ error: err });
+    if (err) throw "Hashing error";
 
     const authEntity = {
       username,

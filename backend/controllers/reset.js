@@ -2,7 +2,7 @@ const AuthEntity = require("../models/AuthEntity");
 const Reset = require("../models/Reset");
 const isEmail = require("../services/isEmail");
 
-module.exports = async function confirmEmail(req, res, next) {
+module.exports = async function createResetRequest(req, res, next) {
   const rejectRequest = () => res.status(400).json({ message: "Bad request!" });
 
   const { email } = req.body;

@@ -33,7 +33,7 @@ module.exports = async function loginUser(req, res, next) {
       let user = await User.findOne({ username });
 
       if (!user) {
-        user = await User.create({ username, email, password });
+        user = await User.create({ username, email });
 
         user.authentity = auth;
         await user.save();
