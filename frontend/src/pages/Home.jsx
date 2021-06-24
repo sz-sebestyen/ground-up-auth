@@ -6,7 +6,13 @@ function Home() {
 
   const getMessage = async (type) => {
     try {
-      const res = await fetch(`/api/${type}`);
+      const res = await fetch(`/api/${type}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      });
       const json = await res.json();
       console.log(json);
       setDto(json);
