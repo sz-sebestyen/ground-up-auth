@@ -29,7 +29,9 @@ function Home() {
       <Navigation />
       <h1>Home</h1>
       <button onClick={getPublic}>Public</button>
-      <button onClick={getPrivate}>Private</button>
+      {localStorage.getItem("jwt") && (
+        <button onClick={getPrivate}>Private</button>
+      )}
       {dto && (
         <div>
           <div>Response:</div>

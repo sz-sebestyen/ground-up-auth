@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { UsernameOrEmail, Password } from "../components/Input";
 import Navigation from "../components/Navigation";
 import jwt from "jsonwebtoken";
 
 function Login() {
   const { state } = useLocation();
+  const history = useHistory();
 
   const [dto, setDto] = useState({
     usernameOrEmail: "",
@@ -31,6 +32,8 @@ function Login() {
 
       localStorage.setItem("jwt", json.jwt);
       console.log(jwt.decode(json.jwt));
+
+      history.push("/");
     } catch (error) {
       console.error(error);
     }
