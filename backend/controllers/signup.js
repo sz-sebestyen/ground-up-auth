@@ -20,8 +20,8 @@ module.exports = async function registerUser(req, res, next) {
     res.status(409).json({ error: { message: "Occupied username!" } });
   }
 
-  bcrypt.hash(password, SALT_ROUNDS, async (err, hash) => {
-    if (err) throw "Hashing error";
+  bcrypt.hash(password, SALT_ROUNDS, async (error, hash) => {
+    if (error) throw error;
 
     const authEntity = {
       username,

@@ -23,7 +23,7 @@ function Registration() {
   };
 
   const handleInputChange = async ({ target, target: { name, value } }) => {
-    setDto((dto) => ({ ...dto, [name]: value }));
+    setDto((prevDto) => ({ ...prevDto, [name]: value }));
 
     if (name === "password2") {
       if (value !== dto.password) {

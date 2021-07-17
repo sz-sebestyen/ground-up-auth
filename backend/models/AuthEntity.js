@@ -20,4 +20,6 @@ const authEntitySchema = Schema({
   },
 });
 
-module.exports = AuthEntity = mongoose.model("AuthEntity", authEntitySchema);
+const AuthEntity = mongoose.model("AuthEntity", authEntitySchema);
+
+module.exports = AuthEntity;

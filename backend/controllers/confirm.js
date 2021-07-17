@@ -24,9 +24,7 @@ module.exports = async function confirmEmail(req, res, next) {
     return unauthorize();
   }
 
-  const { timingSafeEqual } = await import("crypto");
-
-  if (timingSafeEqual(code, confirmation.code)) {
+  if (code === confirmation.code) {
     auth.isConfirmed = true;
     await auth.save();
     res.status(201).json({ status: "success", message: "Email confirmed!" });

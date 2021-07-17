@@ -41,7 +41,7 @@ module.exports = async function changePassword(req, res, next) {
     await Reset.deleteMany({ auth_id: auth._id });
 
     bcrypt.hash(password, SALT_ROUNDS, async (err, hash) => {
-      if (err) throw "Hashing error";
+      if (err) throw err;
 
       auth.password = hash;
 

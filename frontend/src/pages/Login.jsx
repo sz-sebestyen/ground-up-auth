@@ -14,7 +14,7 @@ function Login() {
   });
 
   const handleInputChange = async ({ target, target: { name, value } }) => {
-    setDto((dto) => ({ ...dto, [name]: value }));
+    setDto((prevDto) => ({ ...prevDto, [name]: value }));
     target.reportValidity();
   };
 
